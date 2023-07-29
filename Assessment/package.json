@@ -7,10 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
-    "start": "concurrently \"npm run start-proxy\" \"npm run start-frontend\"",
-    "start-proxy": "node proxy.js",
-    "start-frontend": "vite" 
+    "preview": "vite preview"
   },
   "dependencies": {
     "axios": "^1.4.0",
