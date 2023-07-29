@@ -12,7 +12,7 @@ const sendResponse  = require("./baseController");
  */
 const getAllRecord=async(req,res,next)=>{
     try {
-        const data=await crudServicesInstance.getAll(req);
+        const data=await crudServicesInstance.getAll(req,next);
         if(data.data!==null){
             res.status(200).send(sendResponse("Data fetched sucessfully",data.data));
         }else{
@@ -31,7 +31,7 @@ const getAllRecord=async(req,res,next)=>{
  */
 const getRecord=async(req,res,next)=>{
     try {
-        const data=await crudServicesInstance.getOne(req);
+        const data=await crudServicesInstance.getOne(req,next);
         if(data.data!==null){
             res.status(200).send(sendResponse("Data fetched sucessfully",data.data));
         }else{
@@ -52,7 +52,7 @@ const getRecord=async(req,res,next)=>{
 const addRecord=async(req,res,next)=>{
     try {
         if(req.body.name!==undefined && req.body.name!==""){
-            const data=await crudServicesInstance.addOne(req);
+            const data=await crudServicesInstance.addOne(req,next);
             if(data.data!==null){
                 res.status(200).send(sendResponse("Data fetched sucessfully",data.data));
             }else{
@@ -75,7 +75,7 @@ const addRecord=async(req,res,next)=>{
  */
 const updateRecord=async(req,res,next)=>{
     try {
-        const data=await crudServicesInstance.updateOne(req);
+        const data=await crudServicesInstance.updateOne(req,next);
         if(data.data!==null){
             res.status(200).send(sendResponse("Data fetched sucessfully",data.data));
         }else{
@@ -94,7 +94,7 @@ const updateRecord=async(req,res,next)=>{
  */
 const deleteRecord=async(req,res,next)=>{
     try {
-        const data=await crudServicesInstance.deleteOne(req);
+        const data=await crudServicesInstance.deleteOne(req,next);
         if(data.data!==null){
             res.status(200).send(sendResponse("Data fetched sucessfully",data.data));
         }else{

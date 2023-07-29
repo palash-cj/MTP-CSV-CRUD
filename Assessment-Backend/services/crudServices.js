@@ -1,26 +1,31 @@
 const fs=require("fs");
 const csvParser = require('csv-parser');
-
+const createError=require("../utils/error")
 
 /**
  * readCSV
  * @returns data from the data.csv file
  */
-function readCSV() {
+function readCSV(next) {
     return new Promise((resolve, reject) => {
-      const results = [];
-      fs.createReadStream('./data.csv')
-        .pipe(csvParser())
-        .on('data', (data) => results.push(data))
-        .on('end', () => resolve(results))
-        .on('error', (error) => reject(error));
+      if (!fs.existsSync('./data.csv')) {
+        next(createError(404, "Data not found"))
+      } else {
+        const results = [];
+        fs.createReadStream('./data.csv')
+          .pipe(csvParser())
+          .on('data', (data) => results.push(data))
+          .on('end', () => resolve(results))
+          .on('error', (error) => reject(error));
+      }
     });
-}
+  }
+  
 
 class CrudServices{
 
-    async getAll(req){
-        const data = await readCSV();
+    async getAll(req,next){
+        const data = await readCSV(next);
         if(data.length===0){
             return {
                 data:null,
@@ -31,10 +36,10 @@ class CrudServices{
         return {data};
     }
 
-    async getOne(req){
+    async getOne(req,next){
         const itemId = req.params.id;
         
-        const data = await readCSV();
+        const data = await readCSV(next);
         const record = data.find((item) => item.id === itemId);
         if (record) {
             return {
@@ -49,14 +54,14 @@ class CrudServices{
         }
     }
 
-    async addOne(req) {
+    async addOne(req,next) {
         const newRecord = req.body;
       
         if (!fs.existsSync('./data.csv')) {
           fs.writeFileSync('./data.csv', 'id,name,age,occupation,city\n');
         }
       
-        const data = await readCSV();
+        const data = await readCSV(next);
         var max = 0;
         data.forEach((item) => {
           if (item.id > max) {
@@ -79,11 +84,11 @@ class CrudServices{
       }
 
 
-    async updateOne(req){
+    async updateOne(req,next){
         const itemId = parseInt(req.params.id);
         const updatedRecord = req.body;
         
-        const data = await readCSV();
+        const data = await readCSV(next);
         const index = data.findIndex((item) => parseInt(item.id) === itemId);
         if (index !== -1) {
             data[index] = { ...data[index], ...updatedRecord };
@@ -109,10 +114,10 @@ class CrudServices{
         }
     } 
 
-    async deleteOne(req){
+    async deleteOne(req,next){
         const itemId = parseInt(req.params.id);
         
-        const data = await readCSV();
+        const data = await readCSV(next);
         const index = data.findIndex((item) => parseInt(item.id) === itemId);
         if (index !== -1) {
             const deletedItem = data.splice(index, 1)[0];
