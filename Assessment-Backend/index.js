@@ -14,9 +14,7 @@ const crudRoute=require('./routes/crudRoute');
 const app = express();
 const csvFilePath = path.join(__dirname, 'data.csv');
 
-app.use(cors({
-  origin: frontend_url
-}));
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/file', crudRoute);
