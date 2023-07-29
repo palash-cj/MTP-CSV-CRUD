@@ -86,12 +86,12 @@ class CrudServices{
         if (index !== -1) {
             data[index] = { ...data[index], ...updatedRecord };
     
-            fs.writeFile(csvFilePath, '', () => {
-                fs.createWriteStream(csvFilePath, { flags: 'a' })
+            fs.writeFile('./data.csv', '', () => {
+                fs.createWriteStream('./data.csv', { flags: 'a' })
                     .write('id,name,age,occupation,city\n');
                 data.forEach((item) => {
                     const row = `${item.id},${item.name},${item.age},${item.occupation},${item.city}\n`;
-                    fs.createWriteStream(csvFilePath, { flags: 'a' }).write(row);
+                    fs.createWriteStream('./data.csv', { flags: 'a' }).write(row);
                 });
             });
     
