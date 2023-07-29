@@ -1,53 +1,100 @@
 import React, { useState } from 'react';
-// import { useHistory } from 'react-router-dom'; // Assuming you use React Router to handle routes
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+import './CreatePage.css'; 
+
+const proxyUrl = 'http://localhost:8080';
+const apiUrl = 'https://mtp-assessment-apis.onrender.com/file';
 
 const CreatePage = () => {
-  const history = useHistory();
   const [formData, setFormData] = useState({
-    id: '',
     name: '',
     age: '',
     occupation: '',
     city: '',
   });
+  const navigate = useNavigate(); 
 
-  // Handle form submission to create a new record
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Perform the create operation
-    // Example:
-    // fetch('your-api-endpoint', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(formData),
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log('Record created successfully:', data);
-    //     // Redirect to the list page after the create
-    //     history.push('/list');
-    //   })
-    //   .catch((error) => console.error('Error creating record:', error));
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(`${proxyUrl}/${apiUrl}`, formData);
+      console.log(response.data);
+      setFormData({
+        name: '',
+        age: '',
+        occupation: '',
+        city: '',
+      });
+      toast.success('Record submitted successfully', {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+      navigate('/list');
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   return (
-    <div>
+    <div className="create-page-container">
       <h1>Create New Record</h1>
       <form onSubmit={handleSubmit}>
-        {/* Render your form fields here */}
-        {/* Example:
+        <div className="label-input-container">
+          <label htmlFor="name">Name:</label>
           <input
             type="text"
-            name="id"
-            value={formData.id}
-            onChange={(e) => setFormData({ ...formData, id: e.target.value })}
+            id="name"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
           />
-          // More fields...
-        */}
-        <button type="submit">Create</button>
+        </div>
+        <div className="label-input-container">
+          <label htmlFor="age">Age:</label>
+          <input
+            type="text"
+            id="age"
+            name="age"
+            value={formData.age}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="label-input-container">
+          <label htmlFor="occupation">Occupation:</label>
+          <input
+            type="text"
+            id="occupation"
+            name="occupation"
+            value={formData.occupation}
+            onChange={handleChange}
+          />
+        </div>
+        <div className="label-input-container">
+          <label htmlFor="city">City:</label>
+          <input
+            type="text"
+            id="city"
+            name="city"
+            value={formData.city}
+            onChange={handleChange}
+          />
+        </div>
+        <button type="submit">Submit</button>
       </form>
+      <ToastContainer />
     </div>
   );
 };

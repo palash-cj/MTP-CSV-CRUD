@@ -1,26 +1,70 @@
 import React, { useState, useEffect } from 'react';
-// import RecordItem from './RecordItem'; // Create a separate component to render each record item
+import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
+import './ListPage.css'; 
+
+const proxyUrl = 'http://localhost:8080';
+const apiUrl = 'https://mtp-assessment-apis.onrender.com/file';
 
 const ListPage = () => {
-  // State to hold the list of records
   const [records, setRecords] = useState([]);
 
-  // Fetch records from your API or data source
   useEffect(() => {
-    // Fetch records and set them to the state
-    // Example:
-    // fetch('your-api-endpoint')
-    //   .then((response) => response.json())
-    //   .then((data) => setRecords(data))
-    //   .catch((error) => console.error('Error fetching records:', error));
+    const fetchRecords = async () => {
+      try {
+        const response = await axios.get(`${proxyUrl}/${apiUrl}`);
+        setRecords(response.data.data);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+
+    fetchRecords();
   }, []);
 
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`${proxyUrl}/${apiUrl}/${id}`);
+      toast.success('Record deleted successfully');
+      setRecords((prevRecords) => prevRecords.filter((record) => record.id !== id));
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   return (
-    <div>
+    <div className="list-page-container">
       <h1>List of Records</h1>
-      {records.map((record) => (
-        <RecordItem key={record.id} record={record} />
-      ))}
+      <table className="records-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {records.map((record) => (
+            <tr key={record.id}>
+              <td>{record.id}</td>
+              <td>{record.name}</td>
+              <td>
+                <Link className="action-link" to={`/view/${record.id}`}>
+                  View
+                </Link>
+                <Link className="action-link" to={`/update/${record.id}`}>
+                  Edit
+                </Link>
+                <button className="delete-button" onClick={() => handleDelete(record.id)}>
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };

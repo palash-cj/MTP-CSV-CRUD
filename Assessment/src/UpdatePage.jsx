@@ -1,62 +1,127 @@
-import React, { useEffect, useState } from 'react';
-// import { useHistory, useParams } from 'react-router-dom'; // Assuming you use React Router to handle routes
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useParams, useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import './UpdatePage.css';
+
+const proxyUrl = 'http://localhost:8080'; 
+const apiUrl = 'https://mtp-assessment-apis.onrender.com/file';
 
 const UpdatePage = () => {
-  const { id } = useParams();
-  const history = useHistory();
-  const [record, setRecord] = useState(null);
+  const { id } = useParams(); 
+  const navigate = useNavigate();
 
-  // Fetch the particular record by ID
+  const [formData, setFormData] = useState({
+    id: '',
+    name: '',
+    age: '',
+    occupation: '',
+    city: '',
+  });
+
   useEffect(() => {
-    // Fetch the record using the provided ID
-    // Example:
-    // fetch(`your-api-endpoint/${id}`)
-    //   .then((response) => response.json())
-    //   .then((data) => setRecord(data))
-    //   .catch((error) => console.error('Error fetching record:', error));
+    const fetchRecord = async () => {
+      try {
+        const response = await axios.get(`${proxyUrl}/${apiUrl}/${id}`);
+        const recordData = response.data.data;
+        setFormData({
+          id: recordData.id,
+          name: recordData.name,
+          age: recordData.age,
+          occupation: recordData.occupation,
+          city: recordData.city,
+        });
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+
+    fetchRecord();
   }, [id]);
 
-  // Handle form submission to update the record
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Perform the update operation
-    // Example:
-    // fetch(`your-api-endpoint/${id}`, {
-    //   method: 'PUT',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(updatedRecordData),
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log('Record updated successfully:', data);
-    //     // Redirect to the view page after the update
-    //     history.push(`/view/${id}`);
-    //   })
-    //   .catch((error) => console.error('Error updating record:', error));
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
-  if (!record) {
-    return <div>Loading...</div>;
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.put(`${proxyUrl}/${apiUrl}/${id}`, formData);
+      
+      toast.success('Record updated successfully', {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+
+      navigate('/list');
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <div>
-      <h1>Update Record</h1>
-      <form onSubmit={handleSubmit}>
-        {/* Render your form fields here with initial values from the 'record' state */}
-        {/* Example:
-          <input
-            type="text"
-            name="name"
-            value={record.name}
-            onChange={(e) => setRecord({ ...record, name: e.target.value })}
-          />
-          // More fields...
-        */}
-        <button type="submit">Update</button>
-      </form>
+      <h1 className="update-heading">Update Record</h1>
+      <div className="update-page-container">
+        <form onSubmit={handleSubmit}>
+          <div className="label-input-container">
+            <label htmlFor="id">ID:</label>
+            <span>{formData.id}</span>
+          </div>
+          <div className="label-input-container">
+            <label htmlFor="name">Name:</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="label-input-container">
+            <label htmlFor="age">Age:</label>
+            <input
+              type="text"
+              id="age"
+              name="age"
+              value={formData.age}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="label-input-container">
+            <label htmlFor="occupation">Occupation:</label>
+            <input
+              type="text"
+              id="occupation"
+              name="occupation"
+              value={formData.occupation}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="label-input-container">
+            <label htmlFor="city">City:</label>
+            <input
+              type="text"
+              id="city"
+              name="city"
+              value={formData.city}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <button type="submit">Update</button>
+        </form>
+      </div>
+      <ToastContainer />
     </div>
   );
 };

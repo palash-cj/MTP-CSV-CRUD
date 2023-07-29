@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom'; // Assuming you use React Router for navigation
+import { Link } from 'react-router-dom'; 
 
 const Sidebar = () => {
   return (
@@ -12,7 +12,6 @@ const Sidebar = () => {
         <li>
           <Link to="/create">Create Record</Link>
         </li>
-        {/* Add links to other pages here */}
       </ul>
     </div>
   );

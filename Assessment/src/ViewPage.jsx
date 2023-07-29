@@ -1,18 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom'; // Assuming you use React Router to handle routes
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import './ViewPage.css'; 
+
+const proxyUrl = 'http://localhost:8080'; 
+const apiUrl = 'https://mtp-assessment-apis.onrender.com/file';
 
 const ViewPage = () => {
-  const { id } = useParams();
   const [record, setRecord] = useState(null);
+  const { id } = useParams(); 
 
-  // Fetch the particular record by ID
   useEffect(() => {
-    // Fetch the record using the provided ID
-    // Example:
-    // fetch(`your-api-endpoint/${id}`)
-    //   .then((response) => response.json())
-    //   .then((data) => setRecord(data))
-    //   .catch((error) => console.error('Error fetching record:', error));
+    const fetchRecord = async () => {
+      try {
+        const response = await axios.get(`${proxyUrl}/${apiUrl}/${id}`);
+        setRecord(response.data.data);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+
+    fetchRecord();
   }, [id]);
 
   if (!record) {
@@ -21,12 +29,29 @@ const ViewPage = () => {
 
   return (
     <div>
-      <h1>Record Details</h1>
-      <p>ID: {record.id}</p>
-      <p>Name: {record.name}</p>
-      <p>Age: {record.age}</p>
-      <p>Occupation: {record.occupation}</p>
-      <p>City: {record.city}</p>
+      <h1>View Record</h1>
+      <div className="view-page-container">
+        <div className="info-item">
+          <span className="label">ID:</span>
+          <span className="value">{record.id}</span>
+        </div>
+        <div className="info-item">
+          <span className="label">Name:</span>
+          <span className="value">{record.name}</span>
+        </div>
+        <div className="info-item">
+          <span className="label">Age:</span>
+          <span className="value">{record.age}</span>
+        </div>
+        <div className="info-item">
+          <span className="label">Occupation:</span>
+          <span className="value">{record.occupation}</span>
+        </div>
+        <div className="info-item">
+          <span className="label">City:</span>
+          <span className="value">{record.city}</span>
+        </div>
+      </div>
     </div>
   );
 };
