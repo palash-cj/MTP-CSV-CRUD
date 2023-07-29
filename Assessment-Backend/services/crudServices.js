@@ -49,33 +49,35 @@ class CrudServices{
         }
     }
 
-    async addOne(req){
+    async addOne(req) {
         const newRecord = req.body;
-
-        const data = await readCSV();
-        var max=0;
-        data.forEach((item)=>{
-            if(item.id>max){
-                max=item.id;
-            }
-        })
-        newRecord.id = parseInt(max)+1;
-        data.push(newRecord);
-  
-        fs.writeFile('./data.csv', '', () => {
-            fs.createWriteStream('./data.csv', { flags: 'a' })
-            .write('id,name,age,occupation,city\n'); // Assuming the CSV file has these headers
-    
-            data.forEach((item) => {
-            const row = `${item.id},${item.name},${item.age},${item.occupation},${item.city}\n`;
-            fs.createWriteStream('./data.csv', { flags: 'a' }).write(row);
-            });
-        });
-  
-        return {
-            data:newRecord
+      
+        if (!fs.existsSync('./data.csv')) {
+          fs.writeFileSync('./data.csv', 'id,name,age,occupation,city\n');
         }
-    }
+      
+        const data = await readCSV();
+        var max = 0;
+        data.forEach((item) => {
+          if (item.id > max) {
+            max = item.id;
+          }
+        });
+        newRecord.id = parseInt(max) + 1;
+        data.push(newRecord);
+      
+        fs.writeFileSync('./data.csv', '');
+        fs.createWriteStream('./data.csv', { flags: 'a' }).write('id,name,age,occupation,city\n'); 
+        data.forEach((item) => {
+          const row = `${item.id},${item.name},${item.age},${item.occupation},${item.city}\n`;
+          fs.createWriteStream('./data.csv', { flags: 'a' }).write(row);
+        });
+      
+        return {
+          data: newRecord,
+        };
+      }
+
 
     async updateOne(req){
         const itemId = parseInt(req.params.id);
