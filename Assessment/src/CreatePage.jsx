@@ -26,7 +26,7 @@ const CreatePage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${proxyUrl}/${apiUrl}`, formData);
+      const response = await axios.post(`${apiUrl}`, formData);
       console.log(response.data);
       setFormData({
         name: '',

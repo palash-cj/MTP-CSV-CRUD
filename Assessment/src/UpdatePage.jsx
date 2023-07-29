@@ -23,7 +23,7 @@ const UpdatePage = () => {
   useEffect(() => {
     const fetchRecord = async () => {
       try {
-        const response = await axios.get(`${proxyUrl}/${apiUrl}/${id}`);
+        const response = await axios.get(`${apiUrl}/${id}`);
         const recordData = response.data.data;
         setFormData({
           id: recordData.id,
@@ -48,7 +48,7 @@ const UpdatePage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`${proxyUrl}/${apiUrl}/${id}`, formData);
+      const response = await axios.put(`${apiUrl}/${id}`, formData);
       
       toast.success('Record updated successfully', {
         position: 'top-right',

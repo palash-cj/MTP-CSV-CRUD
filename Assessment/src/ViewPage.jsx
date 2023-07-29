@@ -13,7 +13,7 @@ const ViewPage = () => {
   useEffect(() => {
     const fetchRecord = async () => {
       try {
-        const response = await axios.get(`${proxyUrl}/${apiUrl}/${id}`);
+        const response = await axios.get(`${apiUrl}/${id}`);
         setRecord(response.data.data);
       } catch (error) {
         console.log(error.message);

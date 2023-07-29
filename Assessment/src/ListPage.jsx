@@ -14,7 +14,7 @@ const ListPage = () => {
   useEffect(() => {
     const fetchRecords = async () => {
       try {
-        const response = await axios.get(`${proxyUrl}/${apiUrl}`);
+        const response = await axios.get(`${apiUrl}`);
         setRecords(response.data.data);
       } catch (error) {
         console.log(error.message);
@@ -26,7 +26,7 @@ const ListPage = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`${proxyUrl}/${apiUrl}/${id}`);
+      await axios.delete(`${apiUrl}/${id}`);
       toast.success('Record deleted successfully');
       setRecords((prevRecords) => prevRecords.filter((record) => record.id !== id));
     } catch (error) {
