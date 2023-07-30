@@ -16,18 +16,27 @@ An assessment to be completed to move ahead in the hiring process
 
 ### Prerequisites
 
-- Softwares required, such as Node.js, npm, code studio etc.
+- Tools/Softwares required, such as Node.js, npm, code studio etc.
 
 ### Installation
 
 1. Clone the repo https://github.com/palash-cj/MTP-CSV-CRUD.git
 2. Move to the cloned directory then to "Assessment-Backend"
-3. npm install
+3. Install all the dependencies
+```bash
+npm install
+```
 
 ## Usage
 
-1. To start the server, use command "npm start"
-2. To start the development, use command "npm run dev"
+1. To start the server, use this command
+```bash
+npm start
+```
+2. To start the development, use this command
+```bash
+npm run dev
+```
 
 ## API Endpoints
 
@@ -49,7 +58,10 @@ An assessment to be completed to move ahead in the hiring process
 
 ## Testing
 
-- To run the automated testing, use command "npm test"
+- To run the automated testing, use this command
+```bash
+npm test
+```
 
 ## Contact
 
