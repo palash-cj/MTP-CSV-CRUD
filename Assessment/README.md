@@ -16,7 +16,7 @@ You can access the live demo of this app [here](https://amazing-sfogliatella-ca8
 
 ## Installation and Usage
 
-1. Clone this repository https://github.com/palash-cj/MTP-CSV-CRUD.git
+1. Clone this repository https://github.com/palash-cj/Modus-ETP-Assessment.git
 2. Move to the cloned directory, then to "Assessment"
 3. Install the required dependencies using npm:
 

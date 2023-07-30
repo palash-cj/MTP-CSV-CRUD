@@ -20,7 +20,7 @@ An assessment to be completed to move ahead in the hiring process
 
 ### Installation
 
-1. Clone the repo https://github.com/palash-cj/MTP-CSV-CRUD.git
+1. Clone the repo https://github.com/palash-cj/Modus-ETP-Assessment.git
 2. Move to the cloned directory then to "Assessment-Backend"
 3. Install all the dependencies
 ```bash
