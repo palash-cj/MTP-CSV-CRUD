@@ -14,7 +14,7 @@ const getAllRecord=async(req,res,next)=>{
     try {
         const data=await crudServicesInstance.getAll(req,next);
         if(data.data!==null){
-            res.status(200).send(sendResponse("Data fetched sucessfully",data.data));
+            res.status(200).send(sendResponse("Data fetched successfully",data.data));
         }else{
             next(createError(data.status, data.message));
         }
@@ -33,7 +33,7 @@ const getRecord=async(req,res,next)=>{
     try {
         const data=await crudServicesInstance.getOne(req,next);
         if(data.data!==null){
-            res.status(200).send(sendResponse("Data fetched sucessfully",data.data));
+            res.status(200).send(sendResponse("Data fetched successfully",data.data));
         }else{
             next(createError(data.status, data.message));
         }
@@ -54,7 +54,7 @@ const addRecord=async(req,res,next)=>{
         if(req.body.name!==undefined && req.body.name!==""){
             const data=await crudServicesInstance.addOne(req,next);
             if(data.data!==null){
-                res.status(200).send(sendResponse("Data fetched sucessfully",data.data));
+                res.status(200).send(sendResponse("Data fetched successfully",data.data));
             }else{
                 next(createError(data.status, data.message));
             }
@@ -77,7 +77,7 @@ const updateRecord=async(req,res,next)=>{
     try {
         const data=await crudServicesInstance.updateOne(req,next);
         if(data.data!==null){
-            res.status(200).send(sendResponse("Data fetched sucessfully",data.data));
+            res.status(200).send(sendResponse("Data updated successfully",data.data));
         }else{
             next(createError(data.status, data.message));
         }
@@ -96,7 +96,7 @@ const deleteRecord=async(req,res,next)=>{
     try {
         const data=await crudServicesInstance.deleteOne(req,next);
         if(data.data!==null){
-            res.status(200).send(sendResponse("Data fetched sucessfully",data.data));
+            res.status(200).send(sendResponse("Data deleted successfully",data.data));
         }else{
             next(createError(data.status, data.message));
         }
