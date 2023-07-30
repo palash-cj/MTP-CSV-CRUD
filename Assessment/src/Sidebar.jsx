@@ -6,6 +6,9 @@ const Sidebar = () => {
     <div style={styles.sidebar}>
       <h2>Menu</h2>
       <ul>
+      <li>
+          <Link to="/">Home</Link>
+        </li>
         <li>
           <Link to="/list">List Records</Link>
         </li>
