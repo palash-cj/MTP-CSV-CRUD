@@ -7,6 +7,7 @@ import ViewPage from './ViewPage';
 import UpdatePage from './UpdatePage';
 import CreatePage from './CreatePage';
 import Sidebar from './Sidebar';
+import DashboardPage from './DashboardPage';
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
         <div style={styles.content}>
           {/* Use <Routes> to wrap your route configurations */}
           <Routes>
+            <Route path="/" element={<DashboardPage/>} />
             <Route path="/list" element={<ListPage />} />
             <Route path="/view/:id" element={<ViewPage />} />
             <Route path="/update/:id" element={<UpdatePage />} />
