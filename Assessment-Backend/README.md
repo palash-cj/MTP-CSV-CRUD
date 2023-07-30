@@ -32,20 +32,20 @@ An assessment to be completed to move ahead in the hiring process
 ## API Endpoints
 
 1. To get all the records of the csv file, 
-    GET /file
-    Request: none
+- GET /file
+- Request: none
 2. To add new record in the csv file,
-    POST /file
-    Request: name, age, occupation, city
+- POST /file
+- Request: name, age, occupation, city
 3. To get the particular record,
-    GET /file/:id
-    Request: none
+- GET /file/:id
+- Request: none
 4. To update the particular record,
-    PUT /file/:id
-    Request: name, age, occupation, city
+-   PUT /file/:id
+-   Request: name, age, occupation, city
 5. To delete the particular record,
-    DELETE /file/:id
-    Request: none
+-   DELETE /file/:id
+-   Request: none
 
 ## Testing
 
